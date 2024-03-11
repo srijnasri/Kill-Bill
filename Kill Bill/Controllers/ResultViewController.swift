@@ -17,8 +17,9 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         totalLabel.text = totalValue
-        settingLabel.text = String(format: Constants.splitBillText, split!, tip!)
-        // Do any additional setup after loading the view.
+        if let splitAmount = split, let tipAmount = tip {
+            settingLabel.text = String(format: Constants.splitBillText, splitAmount, tipAmount)
+        }
     }
 
     @IBAction func recalculatePressed(_ sender: UIButton) {

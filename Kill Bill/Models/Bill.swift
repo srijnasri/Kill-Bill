@@ -9,5 +9,5 @@ import Foundation
 struct Bill {
     let billValue: String
     let splitValue: Double
-    let tipPercent: Float
+    let tipPercent: Float?
 }

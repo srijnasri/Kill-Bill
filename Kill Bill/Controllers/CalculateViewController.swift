@@ -33,14 +33,22 @@ class CalculateViewController: UIViewController {
         billText.keyboardType = .decimalPad
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func calculatePressed(_ sender: UIButton) {
-        billSplitValue = splitBill.calculateBillSplit(bill: Bill(billValue: billText.text!,
-                                                splitValue: splitStepper.value,
-                                                tipPercent: tip!))
-        self.performSegue(withIdentifier: Constants.goToResultVC, sender: self)
+        if let billAmount = billText.text {
+            if  let tipPercent = tip {
+                billSplitValue = splitBill.calculateBillSplit(bill: Bill(billValue: billAmount,
+                                                                         splitValue: splitStepper.value,
+                                                                         tipPercent: tipPercent))
+                self.performSegue(withIdentifier: Constants.goToResultVC, sender: self)
+            } else {
+                billSplitValue = splitBill.calculateBillSplit(bill: Bill(billValue: billAmount,
+                                                                         splitValue: splitStepper.value,
+                                                                         tipPercent: nil))
+                self.performSegue(withIdentifier: Constants.goToResultVC, sender: self)
+            }
+        }
     }
     
     @IBAction func stepperPressed(_ sender: UIStepper) {
@@ -84,6 +92,6 @@ class CalculateViewController: UIViewController {
         let destinationVC = segue.destination as! ResultViewController
         destinationVC.totalValue = billSplitValue
         destinationVC.split = splitStepper.value
-        destinationVC.tip = tip! * 100
+        destinationVC.tip = tip ?? 0 * 100
     }
 }

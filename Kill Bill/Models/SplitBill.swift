@@ -12,6 +12,6 @@ struct SplitBill {
     
     mutating func calculateBillSplit(bill: Bill) -> String {
         self.bill = bill
-        return String((Float(bill.billValue)! * bill.tipPercent) / Float(bill.splitValue))
+        return String(((Float(bill.billValue) ?? 0) * (bill.tipPercent ?? 0)) / Float(bill.splitValue))
     }
 }
